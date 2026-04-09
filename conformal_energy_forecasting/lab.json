@@ -1,0 +1,9 @@
+{
+  "name": "Conformal Energy Forecasting",
+  "industry": "Energy & Utilities",
+  "description": "Forecast hourly electricity demand with calibrated prediction intervals using Conformalized Quantile Regression (CQR) deployed via Azure ML batch endpoints.",
+  "detailedDescription": "This lab demonstrates uncertainty-aware energy demand forecasting using Conformalized Quantile Regression (CQR). A multi-output MLP predicts lower, median, and upper quantiles of hourly electricity demand, then conformal prediction calibrates these into prediction intervals with formal finite-sample coverage guarantees. The full pipeline — synthetic data generation, feature engineering, model training with MLflow tracking, model registration with gating, and batch endpoint deployment — runs end-to-end on Azure Machine Learning.",
+  "language": ["Python"],
+  "useCase": ["Time-Series Forecasting", "Uncertainty Quantification", "Batch Inference"],
+  "authors": ["ejones18"]
+}

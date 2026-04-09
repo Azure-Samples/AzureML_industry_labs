@@ -1,0 +1,10 @@
+{
+  "name": "Azure ML Model as MCP Server",
+  "industry": "Industry Agnostic",
+  "description": "Deploy a trained ML model to Azure ML and expose it as an MCP server via APIM for Foundry agents.",
+  "detailedDescription": "This lab demonstrates how to take a pre-trained sklearn forecasting model, deploy it to an Azure ML managed online endpoint, expose it as a REST API through Azure API Management, and wrap it as an MCP server for cloud-based agents in Azure AI Foundry. Includes built-in LLM logging for tracking token usage and tool calling, retry policies for resilience, and managed identity authentication.",
+  "language": ["Python"],
+  "useCase": ["Model Deployment", "MCP Server", "API Management"],
+  "authors": ["ejones18"],
+  "githubPath": "https://github.com/Azure-Samples/AI-Gateway/tree/main/labs/azure-ml-models"
+}

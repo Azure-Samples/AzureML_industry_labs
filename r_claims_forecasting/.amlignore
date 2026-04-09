@@ -1,0 +1,11 @@
+*.rds
+*.csv
+*.pt
+*.pth
+*.bin
+*.jpg
+*.jpeg
+*.png
+__pycache__/
+.git/
+.azureml/

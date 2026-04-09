@@ -1,0 +1,31 @@
+# Auto-generated (do not remove)
+.ipynb_aml_checkpoints/
+*.amltmp
+*.amltemp
+
+# Data files
+*.pt
+*.pth
+*.bin
+*.csv
+
+# Images
+*.jpg
+*.jpeg
+*.png
+
+# Notebooks
+*.ipynb
+.ipynb_checkpoints/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Git, Docker
+.git/
+Dockerfile
+
+# Azure ML artefacts
+.azureml/
+Logs/
