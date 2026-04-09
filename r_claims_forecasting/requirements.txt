@@ -1,0 +1,9 @@
+# setuptools<82: the base image ships v82+ which removed pkg_resources,
+# but the Azure ML batch inference driver still requires it.
+setuptools<82
+azureml-core
+azureml-dataset-runtime[fuse]
+azure-ai-ml
+azure-identity
+pandas
+numpy<2

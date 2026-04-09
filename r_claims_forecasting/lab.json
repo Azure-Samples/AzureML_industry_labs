@@ -1,0 +1,9 @@
+{
+  "name": "R Claims Severity Forecasting",
+  "industry": "Insurance & Financial Services",
+  "description": "Predict insurance claims severity using an R Gamma GLM deployed as an Azure ML batch endpoint.",
+  "detailedDescription": "This lab demonstrates deploying a classical R statistical model on Azure Machine Learning. A Generalized Linear Model with Gamma family and log link — the standard actuarial approach for claims severity — is trained in R, registered as a custom model, and served via a batch endpoint. The pipeline generates synthetic motor insurance data, engineers features, fits the GLM with diagnostic metrics (AIC, BIC, deviance), gates deployment on test MAE, and produces predictions with 90% prediction intervals.",
+  "language": ["R", "Python"],
+  "useCase": ["Claims Forecasting", "Batch Inference", "Statistical Modelling"],
+  "authors": ["ejones18"]
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure ML Industry Labs</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Azure ML Industry Labs</h1>
+                    <p class="tagline">End-to-end MLOps pipelines across real-world industry use-cases</p>
+                </div>
+                <nav class="nav">
+                    <a href="https://github.com/Azure-Samples/AzureML_industry_labs" target="_blank" class="btn-github">
+                        <svg height="20" width="20" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                        </svg>
+                        View on GitHub
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Filter Sidebar -->
+            <aside class="sidebar">
+                <div class="filter-section">
+                    <h3>Industry</h3>
+                    <div id="industryFilters" class="filter-group"></div>
+                </div>
+                <div class="filter-section">
+                    <h3>Language</h3>
+                    <div id="languageFilters" class="filter-group"></div>
+                </div>
+                <div class="filter-section">
+                    <h3>Use-Case</h3>
+                    <div id="useCaseFilters" class="filter-group"></div>
+                </div>
+                <button id="clearFilters" class="btn-clear">Clear Filters</button>
+            </aside>
+
+            <!-- Labs Grid -->
+            <section class="content">
+                <div class="content-header">
+                    <h2>Explore Labs</h2>
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Search labs...">
+                    </div>
+                </div>
+                <div id="labCount" class="lab-count"></div>
+                <div id="labsGrid" class="labs-grid"></div>
+                <div id="noResults" class="no-results" style="display: none;">
+                    <p>No labs found matching your criteria.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="labModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; Built with ❤️ for Azure Machine Learning demonstrations.</p>
+            <div class="footer-links">
+                <a href="https://azure.microsoft.com/" target="_blank">Microsoft Azure</a>
+                <a href="https://learn.microsoft.com/azure/machine-learning/" target="_blank">Azure ML Docs</a>
+                <a href="https://github.com/Azure/azureml-examples" target="_blank">Azure ML Examples</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

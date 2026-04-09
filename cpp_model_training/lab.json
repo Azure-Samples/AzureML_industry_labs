@@ -1,0 +1,9 @@
+{
+  "name": "C++ Model Training",
+  "industry": "Industry Agnostic",
+  "description": "Train a linear regression model in pure C++ with Azure ML pipeline orchestration.",
+  "detailedDescription": "This lab proves that native C++ model training works on the Azure ML platform. It implements a linear regression model trained entirely in C++, orchestrated via an Azure ML pipeline. The pipeline handles data preprocessing, C++ compilation and execution, MLflow metric logging, and model registration — demonstrating subprocess orchestration for non-Python training workloads.",
+  "language": ["C++", "Python"],
+  "useCase": ["Model Training", "Pipeline Orchestration"],
+  "authors": ["ejones18"]
+}

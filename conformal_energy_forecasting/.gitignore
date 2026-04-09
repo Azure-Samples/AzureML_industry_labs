@@ -1,0 +1,6 @@
+previous_manifest*.json
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.amltmp
+.ipynb_aml_checkpoints/

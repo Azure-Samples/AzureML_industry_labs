@@ -1,0 +1,13 @@
+# Data files
+*.csv
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Git
+.git/
+
+# Azure ML artefacts
+.azureml/
+Logs/

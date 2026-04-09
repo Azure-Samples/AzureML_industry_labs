@@ -1,0 +1,83 @@
+[
+  {
+    "name": "Azure ML Model as MCP Server",
+    "industry": "Industry Agnostic",
+    "shortDescription": "Deploy a trained ML model to Azure ML and expose it as an MCP server via APIM for Foundry agents.",
+    "detailedDescription": "This lab demonstrates how to take a pre-trained sklearn forecasting model, deploy it to an Azure ML managed online endpoint, expose it as a REST API through Azure API Management, and wrap it as an MCP server for cloud-based agents in Azure AI Foundry. Includes built-in LLM logging for tracking token usage and tool calling, retry policies for resilience, and managed identity authentication.",
+    "language": [
+      "Python"
+    ],
+    "useCase": [
+      "Model Deployment",
+      "MCP Server",
+      "API Management"
+    ],
+    "authors": [
+      "ejones18"
+    ],
+    "directory": "azureml_mcp_server",
+    "githubPath": "https://github.com/Azure-Samples/AI-Gateway/tree/main/labs/azure-ml-models",
+    "external": true
+  },
+  {
+    "name": "Conformal Energy Forecasting",
+    "industry": "Energy & Utilities",
+    "shortDescription": "Forecast hourly electricity demand with calibrated prediction intervals using Conformalized Quantile Regression (CQR) deployed via Azure ML batch endpoints.",
+    "detailedDescription": "This lab demonstrates uncertainty-aware energy demand forecasting using Conformalized Quantile Regression (CQR). A multi-output MLP predicts lower, median, and upper quantiles of hourly electricity demand, then conformal prediction calibrates these into prediction intervals with formal finite-sample coverage guarantees. The full pipeline — synthetic data generation, feature engineering, model training with MLflow tracking, model registration with gating, and batch endpoint deployment — runs end-to-end on Azure Machine Learning.",
+    "language": [
+      "Python"
+    ],
+    "useCase": [
+      "Time-Series Forecasting",
+      "Uncertainty Quantification",
+      "Batch Inference"
+    ],
+    "authors": [
+      "ejones18"
+    ],
+    "directory": "conformal_energy_forecasting",
+    "githubPath": "https://github.com/Azure-Samples/AzureML_industry_labs/tree/main/conformal_energy_forecasting",
+    "external": false
+  },
+  {
+    "name": "C++ Model Training",
+    "industry": "Industry Agnostic",
+    "shortDescription": "Train a linear regression model in pure C++ with Azure ML pipeline orchestration.",
+    "detailedDescription": "This lab proves that native C++ model training works on the Azure ML platform. It implements a linear regression model trained entirely in C++, orchestrated via an Azure ML pipeline. The pipeline handles data preprocessing, C++ compilation and execution, MLflow metric logging, and model registration — demonstrating subprocess orchestration for non-Python training workloads.",
+    "language": [
+      "C++",
+      "Python"
+    ],
+    "useCase": [
+      "Model Training",
+      "Pipeline Orchestration"
+    ],
+    "authors": [
+      "ejones18"
+    ],
+    "directory": "cpp_model_training",
+    "githubPath": "https://github.com/Azure-Samples/AzureML_industry_labs/tree/main/cpp_model_training",
+    "external": false
+  },
+  {
+    "name": "R Claims Severity Forecasting",
+    "industry": "Insurance & Financial Services",
+    "shortDescription": "Predict insurance claims severity using an R Gamma GLM deployed as an Azure ML batch endpoint.",
+    "detailedDescription": "This lab demonstrates deploying a classical R statistical model on Azure Machine Learning. A Generalized Linear Model with Gamma family and log link — the standard actuarial approach for claims severity — is trained in R, registered as a custom model, and served via a batch endpoint. The pipeline generates synthetic motor insurance data, engineers features, fits the GLM with diagnostic metrics (AIC, BIC, deviance), gates deployment on test MAE, and produces predictions with 90% prediction intervals.",
+    "language": [
+      "R",
+      "Python"
+    ],
+    "useCase": [
+      "Claims Forecasting",
+      "Batch Inference",
+      "Statistical Modelling"
+    ],
+    "authors": [
+      "ejones18"
+    ],
+    "directory": "r_claims_forecasting",
+    "githubPath": "https://github.com/Azure-Samples/AzureML_industry_labs/tree/main/r_claims_forecasting",
+    "external": false
+  }
+]
