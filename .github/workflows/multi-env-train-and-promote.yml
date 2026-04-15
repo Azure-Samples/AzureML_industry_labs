@@ -1,0 +1,219 @@
+name: "[Multi-Env MLOps] Train, Promote & Deploy"
+
+# 3-environment promotion flow:
+#   Dev  (synthetic data)  → validate pipeline on synthetic data
+#   Test (real data subset) → re-train & validate model quality on real data
+#   Prod (inference only)   → deploy test-validated model from shared registry
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  REGISTRY_NAME: readmit-registry
+  REGISTRY_RG: rg-readmit-shared
+  PROJECT: readmit
+  MLOPS_DIR: multi_env_mlops/mlops/azureml
+
+jobs:
+  # -----------------------------------------------------------------------
+  # Stage 0: Register environment & components to the shared ML Registry
+  # -----------------------------------------------------------------------
+  register-components:
+    name: Register Components to Registry
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Install ML Extension
+        run: az extension add -n ml --yes
+
+      - name: Register Environment to Registry
+        run: |
+          az ml environment create \
+            --file ${{ env.MLOPS_DIR }}/train/train-env.yml \
+            --registry-name ${{ env.REGISTRY_NAME }} \
+            || echo "Environment version already exists"
+
+      - name: Register Components to Registry
+        run: |
+          for comp in generate_data prep train evaluate register; do
+            az ml component create \
+              --file ${{ env.MLOPS_DIR }}/components/$comp.yml \
+              --registry-name ${{ env.REGISTRY_NAME }} \
+              || echo "Component $comp version already exists"
+          done
+
+  # -----------------------------------------------------------------------
+  # Stage 1: Train on Dev (synthetic data)
+  # -----------------------------------------------------------------------
+  train-dev:
+    name: Train on Dev (synthetic data)
+    needs: register-components
+    runs-on: ubuntu-latest
+    environment: dev
+    outputs:
+      run_id: ${{ steps.pipeline.outputs.run_id }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Install ML Extension
+        run: az extension add -n ml --yes
+
+      - name: Set defaults
+        run: |
+          az configure --defaults \
+            group=rg-${{ env.PROJECT }}-dev \
+            workspace=${{ env.PROJECT }}-dev-ws
+
+      - name: Submit Pipeline
+        id: pipeline
+        run: |
+          run_id=$(az ml job create \
+            --file ${{ env.MLOPS_DIR }}/train/pipeline.yml \
+            --query name -o tsv)
+          echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
+          echo "Pipeline submitted: $run_id"
+
+          status="Running"
+          while [[ "$status" == "Running" || "$status" == "NotStarted" || "$status" == "Preparing" || "$status" == "Queued" || "$status" == "Starting" || "$status" == "Finalizing" ]]; do
+            sleep 30
+            status=$(az ml job show --name "$run_id" --query status -o tsv)
+            echo "Status: $status"
+          done
+          if [[ "$status" != "Completed" ]]; then
+            echo "::error::Pipeline failed with status: $status"
+            exit 1
+          fi
+
+  # -----------------------------------------------------------------------
+  # Stage 2: Train on Test (real data) — same pipeline, different data
+  # -----------------------------------------------------------------------
+  train-test:
+    name: Train on Test (real data)
+    needs: train-dev
+    runs-on: ubuntu-latest
+    environment: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Install ML Extension
+        run: az extension add -n ml --yes
+
+      - name: Set defaults
+        run: |
+          az configure --defaults \
+            group=rg-${{ env.PROJECT }}-test \
+            workspace=${{ env.PROJECT }}-test-ws
+
+      - name: Submit Pipeline
+        id: pipeline
+        run: |
+          run_id=$(az ml job create \
+            --file ${{ env.MLOPS_DIR }}/train/pipeline.yml \
+            --query name -o tsv)
+          echo "Pipeline submitted: $run_id"
+
+          status="Running"
+          while [[ "$status" == "Running" || "$status" == "NotStarted" || "$status" == "Preparing" || "$status" == "Queued" || "$status" == "Starting" || "$status" == "Finalizing" ]]; do
+            sleep 30
+            status=$(az ml job show --name "$run_id" --query status -o tsv)
+            echo "Status: $status"
+          done
+          if [[ "$status" != "Completed" ]]; then
+            echo "::error::Test pipeline failed with status: $status"
+            exit 1
+          fi
+
+  # -----------------------------------------------------------------------
+  # Stage 3: Promote test-validated model to Registry & deploy to Prod
+  # -----------------------------------------------------------------------
+  deploy-prod:
+    name: Deploy to Prod
+    needs: train-test
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Install ML Extension
+        run: az extension add -n ml --yes
+
+      - name: Get latest model version from Test
+        id: model
+        run: |
+          VERSION=$(az ml model show \
+            --name readmission-model \
+            --label latest \
+            --resource-group rg-${{ env.PROJECT }}-test \
+            --workspace-name ${{ env.PROJECT }}-test-ws \
+            --query version -o tsv)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Latest model version: $VERSION"
+
+      - name: Promote model from Test to Registry
+        run: |
+          az ml model share \
+            --name readmission-model \
+            --version ${{ steps.model.outputs.version }} \
+            --resource-group rg-${{ env.PROJECT }}-test \
+            --workspace-name ${{ env.PROJECT }}-test-ws \
+            --registry-name ${{ env.REGISTRY_NAME }} \
+            --share-with-name readmission-model \
+            --share-with-version ${{ steps.model.outputs.version }}
+
+      - name: Set Prod defaults
+        run: |
+          az configure --defaults \
+            group=rg-${{ env.PROJECT }}-prod \
+            workspace=${{ env.PROJECT }}-prod-ws
+
+      - name: Create Online Endpoint
+        run: |
+          az ml online-endpoint create \
+            --file ${{ env.MLOPS_DIR }}/deploy/online/online-endpoint.yml \
+            || echo "Endpoint already exists"
+
+      - name: Deploy Model from Registry
+        run: |
+          az ml online-deployment create \
+            --file ${{ env.MLOPS_DIR }}/deploy/online/online-deployment.yml \
+            --all-traffic
+
+      - name: Smoke Test
+        run: |
+          az ml online-endpoint invoke \
+            --name readmission-online \
+            --request-file multi_env_mlops/data/sample-request.json

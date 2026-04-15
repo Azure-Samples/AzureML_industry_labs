@@ -1,0 +1,11 @@
+*.pt
+*.pth
+*.bin
+*.csv
+*.parquet
+__pycache__/
+.git/
+.azureml/
+.github/
+infra/
+*.png

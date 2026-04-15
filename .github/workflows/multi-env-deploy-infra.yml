@@ -1,0 +1,119 @@
+name: "[Multi-Env MLOps] Deploy Infrastructure"
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment (or shared for the ML Registry)'
+        required: true
+        type: choice
+        options:
+          - shared
+          - dev
+          - test
+          - prod
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  BICEP_DIR: multi_env_mlops/infra
+  PROJECT: readmit
+
+jobs:
+  validate:
+    name: Validate Bicep
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Bicep Lint
+        run: |
+          if [ "${{ inputs.environment }}" = "shared" ]; then
+            az bicep build --file ${{ env.BICEP_DIR }}/shared.bicep
+          else
+            az bicep build --file ${{ env.BICEP_DIR }}/main.bicep
+          fi
+
+      - name: What-If
+        run: |
+          if [ "${{ inputs.environment }}" = "shared" ]; then
+            az deployment group what-if \
+              --resource-group rg-${{ env.PROJECT }}-shared \
+              --template-file ${{ env.BICEP_DIR }}/shared.bicep \
+              --parameters ${{ env.BICEP_DIR }}/parameters/shared.bicepparam
+          else
+            az deployment group what-if \
+              --resource-group rg-${{ env.PROJECT }}-${{ inputs.environment }} \
+              --template-file ${{ env.BICEP_DIR }}/main.bicep \
+              --parameters ${{ env.BICEP_DIR }}/parameters/${{ inputs.environment }}.bicepparam
+          fi
+
+  deploy:
+    name: Deploy ${{ inputs.environment }}
+    needs: validate
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Install ML Extension
+        run: az extension add -n ml --yes
+
+      - name: Get Registry ID
+        if: inputs.environment != 'shared'
+        id: registry
+        run: |
+          REGISTRY_ID=$(az ml registry show \
+            --name ${{ env.PROJECT }}-registry \
+            --resource-group rg-${{ env.PROJECT }}-shared \
+            --query id -o tsv 2>/dev/null || echo "")
+          echo "registry_id=$REGISTRY_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy Bicep
+        run: |
+          if [ "${{ inputs.environment }}" = "shared" ]; then
+            az deployment group create \
+              --resource-group rg-${{ env.PROJECT }}-shared \
+              --template-file ${{ env.BICEP_DIR }}/shared.bicep \
+              --parameters ${{ env.BICEP_DIR }}/parameters/shared.bicepparam \
+              --name deploy-shared-${{ github.run_number }}
+          else
+            az deployment group create \
+              --resource-group rg-${{ env.PROJECT }}-${{ inputs.environment }} \
+              --template-file ${{ env.BICEP_DIR }}/main.bicep \
+              --parameters ${{ env.BICEP_DIR }}/parameters/${{ inputs.environment }}.bicepparam \
+              --parameters mlRegistryId='${{ steps.registry.outputs.registry_id }}' \
+              --name deploy-${{ inputs.environment }}-${{ github.run_number }}
+          fi
+
+      - name: Set identity datastore auth
+        if: inputs.environment != 'shared'
+        run: |
+          az ml workspace update \
+            --name ${{ env.PROJECT }}-${{ inputs.environment }}-ws \
+            --resource-group rg-${{ env.PROJECT }}-${{ inputs.environment }} \
+            --system-datastores-auth-mode identity
+
+      - name: Provision managed network
+        if: inputs.environment != 'shared'
+        run: |
+          az ml workspace provision-network \
+            --name ${{ env.PROJECT }}-${{ inputs.environment }}-ws \
+            --resource-group rg-${{ env.PROJECT }}-${{ inputs.environment }} \
+            --include-spark

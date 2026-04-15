@@ -1,0 +1,50 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+type: command
+
+name: readmission_train
+display_name: Train Model
+version: 1
+description: Train a GradientBoosting classifier with MLflow tracking.
+
+code: ../../../data_science
+command: >-
+  python src/train.py
+  --train_data ${{inputs.train_data}}
+  --val_data ${{inputs.val_data}}
+  --model_output ${{outputs.model_output}}
+  --n_estimators ${{inputs.n_estimators}}
+  --max_depth ${{inputs.max_depth}}
+  --learning_rate ${{inputs.learning_rate}}
+  --min_samples_split ${{inputs.min_samples_split}}
+  --min_samples_leaf ${{inputs.min_samples_leaf}}
+  --subsample ${{inputs.subsample}}
+
+environment: azureml://registries/readmit-registry/environments/readmission-train-env/labels/latest
+
+inputs:
+  train_data:
+    type: uri_folder
+  val_data:
+    type: uri_folder
+  n_estimators:
+    type: integer
+    default: 300
+  max_depth:
+    type: integer
+    default: 5
+  learning_rate:
+    type: number
+    default: 0.1
+  min_samples_split:
+    type: integer
+    default: 10
+  min_samples_leaf:
+    type: integer
+    default: 5
+  subsample:
+    type: number
+    default: 0.8
+
+outputs:
+  model_output:
+    type: uri_folder

@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.env
+.azure/
+*.pt
+*.pth
+*.bin
+.azureml/
+logs/
+data/patients.csv
+recover-ws.json
+tmp_*/
+infra/*.json

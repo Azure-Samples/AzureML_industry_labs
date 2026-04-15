@@ -1,0 +1,30 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+type: command
+
+name: readmission_prep
+display_name: Prep Data
+version: 1
+description: Clean, one-hot encode, and split raw patient data into train/val/test sets.
+
+code: ../../../data_science
+command: >-
+  python src/prep.py
+  --raw_data ${{inputs.raw_data}}
+  --train_data ${{outputs.train_data}}
+  --val_data ${{outputs.val_data}}
+  --test_data ${{outputs.test_data}}
+
+environment: azureml://registries/readmit-registry/environments/readmission-train-env/labels/latest
+
+inputs:
+  raw_data:
+    type: uri_file
+    description: Raw patient CSV or Parquet file.
+
+outputs:
+  train_data:
+    type: uri_folder
+  val_data:
+    type: uri_folder
+  test_data:
+    type: uri_folder

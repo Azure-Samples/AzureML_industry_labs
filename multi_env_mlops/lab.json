@@ -1,0 +1,9 @@
+{
+  "name": "Multi-Environment MLOps for Healthcare",
+  "industry": "Healthcare",
+  "description": "Predict 30-day hospital readmission risk with Bicep IaC, three-environment model promotion (dev/test/prod), shared ML Registry, and identity-based auth on Azure ML.",
+  "detailedDescription": "This lab demonstrates enterprise-grade MLOps for healthcare using Azure Machine Learning. A GradientBoosting classifier predicts 30-day hospital readmission risk from synthetic patient data. The focus is infrastructure and operations: Bicep IaC provisions three isolated Azure ML workspaces (dev, test, prod) plus a shared ML Registry for cross-workspace model promotion, RBAC-as-code with identity-based auth throughout, optional managed VNet isolation, and GitHub Actions CI/CD with OIDC federation and environment approval gates. The Python 3.13 pipeline covers data prep, training with MLflow tracking, model evaluation with gating, and cross-workspace deployment via the registry.",
+  "language": ["Python", "Bicep"],
+  "useCase": ["MLOps", "Infrastructure as Code", "Multi-Environment", "Model Promotion"],
+  "authors": ["ejones18"]
+}

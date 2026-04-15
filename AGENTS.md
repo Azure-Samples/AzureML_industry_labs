@@ -59,6 +59,7 @@ Every lab **must** follow this structure. When creating a new lab, replicate thi
 | `cpp_model_training/` | Industry Agnostic | Train a linear regression model in pure C++ with Azure ML pipeline orchestration |
 | `conformal_energy_forecasting/` | Energy & Utilities | Forecast hourly electricity demand with calibrated prediction intervals using Conformalized Quantile Regression (CQR) deployed via Azure ML batch endpoints |
 | `azureml_mcp_server/` *(external)* | Industry Agnostic | Deploy a trained ML model to Azure ML and expose it as an MCP server via APIM for Foundry agents |
+| `multi_env_mlops/` | Healthcare | Predict 30-day hospital readmission risk with full IaC, multi-environment model promotion, and managed VNet isolation on Azure ML |
 
 ### External Labs
 
@@ -158,7 +159,6 @@ Exclude large or unnecessary files from Azure ML snapshots to keep upload times 
 *.ipynb
 __pycache__/
 .git/
-Dockerfile
 .azureml/
 ```
 

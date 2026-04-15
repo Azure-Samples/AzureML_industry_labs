@@ -1,0 +1,23 @@
+{
+  "input_data": {
+    "columns": [
+      "age", "num_prior_admissions", "length_of_stay_days", "num_diagnoses",
+      "num_procedures", "num_medications", "num_lab_results",
+      "days_since_last_admission", "bmi", "heart_rate_avg",
+      "systolic_bp_avg", "hba1c",
+      "gender_M",
+      "admission_type_Emergency", "admission_type_Trauma", "admission_type_Urgent",
+      "discharge_disposition_Home", "discharge_disposition_Home_Health",
+      "discharge_disposition_Rehab", "discharge_disposition_SNF",
+      "primary_diagnosis_group_Digestive", "primary_diagnosis_group_Endocrine",
+      "primary_diagnosis_group_Injury", "primary_diagnosis_group_Musculoskeletal",
+      "primary_diagnosis_group_Other", "primary_diagnosis_group_Respiratory",
+      "payer_code_Medicare", "payer_code_Other", "payer_code_Private", "payer_code_Self_Pay"
+    ],
+    "index": [0],
+    "data": [
+      [72, 3, 8, 6, 2, 12, 15, 45, 29.3, 88, 142, 7.5,
+       1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
+    ]
+  }
+}

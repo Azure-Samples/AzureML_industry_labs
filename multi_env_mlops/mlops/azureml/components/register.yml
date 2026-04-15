@@ -1,0 +1,29 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandComponent.schema.json
+type: command
+
+name: readmission_register
+display_name: Register Model
+version: 1
+description: Conditionally register the model if the evaluation deploy flag is set.
+
+code: ../../../data_science
+command: >-
+  python src/register.py
+  --model_name ${{inputs.model_name}}
+  --model_path ${{inputs.model_path}}
+  --evaluation_output ${{inputs.evaluation_output}}
+  --model_info_output_path ${{outputs.model_info_output_path}}
+
+environment: azureml://registries/readmit-registry/environments/readmission-train-env/labels/latest
+
+inputs:
+  model_name:
+    type: string
+  model_path:
+    type: uri_folder
+  evaluation_output:
+    type: uri_folder
+
+outputs:
+  model_info_output_path:
+    type: uri_folder

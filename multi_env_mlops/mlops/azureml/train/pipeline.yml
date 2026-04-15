@@ -1,0 +1,63 @@
+$schema: https://azuremlschemas.azureedge.net/latest/pipelineJob.schema.json
+type: pipeline
+experiment_name: readmission-prediction
+description: >
+  End-to-end pipeline: generate_data → prep → train → evaluate → register
+  for 30-day hospital readmission risk prediction.
+  All components are consumed from the shared ML Registry.
+  Data is generated on the compute cluster — no manual upload needed.
+
+outputs:
+  train_data:
+  val_data:
+  test_data:
+  trained_model:
+  evaluation_output:
+  model_info_output_path:
+
+settings:
+  default_datastore: azureml:workspaceblobstore
+  default_compute: azureml:cpu-cluster
+  continue_on_step_failure: false
+
+jobs:
+  generate_data:
+    component: azureml://registries/readmit-registry/components/readmission_generate_data/labels/latest
+    inputs:
+      num_samples: 20000
+      seed: 42
+
+  prep_data:
+    component: azureml://registries/readmit-registry/components/readmission_prep/labels/latest
+    inputs:
+      raw_data: ${{parent.jobs.generate_data.outputs.raw_data}}
+    outputs:
+      train_data: ${{parent.outputs.train_data}}
+      val_data: ${{parent.outputs.val_data}}
+      test_data: ${{parent.outputs.test_data}}
+
+  train_model:
+    component: azureml://registries/readmit-registry/components/readmission_train/labels/latest
+    inputs:
+      train_data: ${{parent.jobs.prep_data.outputs.train_data}}
+      val_data: ${{parent.jobs.prep_data.outputs.val_data}}
+    outputs:
+      model_output: ${{parent.outputs.trained_model}}
+
+  evaluate_model:
+    component: azureml://registries/readmit-registry/components/readmission_evaluate/labels/latest
+    inputs:
+      model_name: readmission-model
+      model_input: ${{parent.jobs.train_model.outputs.model_output}}
+      test_data: ${{parent.jobs.prep_data.outputs.test_data}}
+    outputs:
+      evaluation_output: ${{parent.outputs.evaluation_output}}
+
+  register_model:
+    component: azureml://registries/readmit-registry/components/readmission_register/labels/latest
+    inputs:
+      model_name: readmission-model
+      model_path: ${{parent.jobs.train_model.outputs.model_output}}
+      evaluation_output: ${{parent.jobs.evaluate_model.outputs.evaluation_output}}
+    outputs:
+      model_info_output_path: ${{parent.outputs.model_info_output_path}}
