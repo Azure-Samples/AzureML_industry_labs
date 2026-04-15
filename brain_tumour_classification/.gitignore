@@ -1,0 +1,39 @@
+# Data & model artefacts
+*.pt
+*.pth
+*.bin
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.csv
+
+# Manifests (generated at runtime)
+previous_manifest*.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Notebooks
+*.ipynb
+.ipynb_checkpoints/
+
+# Azure ML
+.azureml/
+.ipynb_aml_checkpoints/
+*.amltmp
+*.amltemp
+Logs/
+
+# Environment
+.env
+*.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/

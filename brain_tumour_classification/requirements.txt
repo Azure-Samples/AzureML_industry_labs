@@ -1,0 +1,11 @@
+torch==2.1.0
+torchvision==0.16.0
+numpy<2
+Pillow
+scikit-learn
+mlflow==2.9.2
+azureml-mlflow==1.54.0
+azure-ai-ml
+azureml-fsspec
+azureml-core
+azureml-dataset-runtime

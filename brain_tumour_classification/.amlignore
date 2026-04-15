@@ -1,0 +1,32 @@
+# Data files — never snapshot these
+*.pt
+*.pth
+*.bin
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.csv
+
+# Notebook checkpoints & outputs
+*.ipynb
+.ipynb_checkpoints/
+.ipynb_aml_checkpoints/
+
+# Azure ML temp files
+*.amltmp
+*.amltemp
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Git
+.git/
+
+# Azure ML
+.azureml/
+Logs/
+
+# Environment
+.env
