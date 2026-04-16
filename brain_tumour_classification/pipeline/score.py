@@ -1,31 +1,11 @@
 import os
 import glob
 import torch
-import torch.nn as nn
-from torchvision import models
 
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import CLASS_NAMES, NUM_CLASSES, DEFAULT_DROPOUT
-
-
-class BrainTumourCNN(nn.Module):
-    def __init__(self, num_classes: int = NUM_CLASSES, dropout: float = DEFAULT_DROPOUT):
-        super(BrainTumourCNN, self).__init__()
-        self.model = models.resnet18(weights=None)
-        in_features = self.model.fc.in_features
-        self.model.fc = nn.Sequential(
-            nn.Dropout(dropout),
-            nn.Linear(in_features, 256),
-            nn.ReLU(inplace=True),
-            nn.Dropout(dropout),
-            nn.Linear(256, num_classes),
-        )
-
-    def forward(self, x):
-        return self.model(x)
-
-
+from model.cnn import BrainTumourCNN
 def init():
     global model
 
