@@ -11,7 +11,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from model.cnn import BrainTumourCNN
-from config import CLASS_NAMES
+from config import CLASS_NAMES, DEFAULT_EPOCHS, DEFAULT_LEARNING_RATE, DEFAULT_BATCH_SIZE, DEFAULT_VAL_SPLIT
 
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning, message="TypedStorage is deprecated")
@@ -20,10 +20,10 @@ warnings.filterwarnings("ignore", category=UserWarning, message="TypedStorage is
 parser = argparse.ArgumentParser()
 parser.add_argument("--processed_data", type=str)
 parser.add_argument("--model_output",   type=str)
-parser.add_argument("--num_epochs",     type=int,   default=25)
-parser.add_argument("--learning_rate",  type=float, default=1e-4)
-parser.add_argument("--batch_size",     type=int,   default=32)
-parser.add_argument("--val_split",      type=float, default=0.2)
+parser.add_argument("--num_epochs",     type=int,   default=DEFAULT_EPOCHS)
+parser.add_argument("--learning_rate",  type=float, default=DEFAULT_LEARNING_RATE)
+parser.add_argument("--batch_size",     type=int,   default=DEFAULT_BATCH_SIZE)
+parser.add_argument("--val_split",      type=float, default=DEFAULT_VAL_SPLIT)
 args = parser.parse_args()
 
 os.makedirs(args.model_output, exist_ok=True)
