@@ -20,6 +20,26 @@
     "external": true
   },
   {
+    "name": "Brain Tumour Classification Pipeline",
+    "industry": "Healthcare",
+    "shortDescription": "An automated Azure ML Pipeline to automatically train and deploy a CNN model to classify brain scan images as having one of three types of tumour, or no tumour",
+    "detailedDescription": "This lab demonstrates how pipelines can be set up on Azure ML. It first checks to see if the data, either training or testing, has changed at all (say if new data had been added). It then builds a data asset, and automatically trains the model (if the training data has changed). It then checks to see if the model is better, by testing the model on validation data. If so, the model is registered, and deployed to a batch endpoint to make predictions on the test dataset. The lab shows how large parts of an ML workflow can be automated using pipelines.",
+    "language": [
+      "Python"
+    ],
+    "useCase": [
+      "Medical Classification",
+      "ML Pipelines",
+      "Batch Inference"
+    ],
+    "authors": [
+      "alfmuir321"
+    ],
+    "directory": "brain_tumour_classification",
+    "githubPath": "https://github.com/Azure-Samples/AzureML_industry_labs/tree/main/brain_tumour_classification",
+    "external": false
+  },
+  {
     "name": "Conformal Energy Forecasting",
     "industry": "Energy & Utilities",
     "shortDescription": "Forecast hourly electricity demand with calibrated prediction intervals using Conformalized Quantile Regression (CQR) deployed via Azure ML batch endpoints.",

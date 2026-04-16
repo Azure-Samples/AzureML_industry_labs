@@ -36,9 +36,10 @@ Each lab is a self-contained project with its own pipeline, model architecture, 
 | # | Lab | Industry | Description |
 |---|-----|----------|-------------|
 | 1 | [Azure ML Model as MCP Server](https://github.com/Azure-Samples/AI-Gateway/tree/main/labs/azure-ml-models) | Industry Agnostic | Deploy a trained ML model to Azure ML and expose it as an MCP server via APIM for Foundry agents. |
-| 2 | [Conformal Energy Forecasting](conformal_energy_forecasting/) | Energy & Utilities | Forecast hourly electricity demand with calibrated prediction intervals using Conformalized Quantile Regression (CQR) deployed via Azure ML batch endpoints. |
-| 3 | [C++ Model Training](cpp_model_training/) | Industry Agnostic | Train a linear regression model in pure C++ with Azure ML pipeline orchestration. |
-| 4 | [R Claims Severity Forecasting](r_claims_forecasting/) | Insurance & Financial Services | Predict insurance claims severity using an R Gamma GLM deployed as an Azure ML batch endpoint. |
+| 2 | [Brain Tumour Classification Pipeline](brain_tumour_classification/) | Healthcare | An automated Azure ML Pipeline to automatically train and deploy a CNN model to classify brain scan images as having one of three types of tumour, or no tumour |
+| 3 | [Conformal Energy Forecasting](conformal_energy_forecasting/) | Energy & Utilities | Forecast hourly electricity demand with calibrated prediction intervals using Conformalized Quantile Regression (CQR) deployed via Azure ML batch endpoints. |
+| 4 | [C++ Model Training](cpp_model_training/) | Industry Agnostic | Train a linear regression model in pure C++ with Azure ML pipeline orchestration. |
+| 5 | [R Claims Severity Forecasting](r_claims_forecasting/) | Insurance & Financial Services | Predict insurance claims severity using an R Gamma GLM deployed as an Azure ML batch endpoint. |
 <!-- LABS_TABLE_END -->
 
 > 💡 Have an idea for a new lab? Open an issue or check [CONTRIBUTING.md](CONTRIBUTING.md) to add your own!
