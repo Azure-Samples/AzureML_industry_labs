@@ -1,8 +1,8 @@
 torch==2.1.0
-numpy<2
+numpy==1.26.4
 mlflow==2.9.2
-azureml-mlflow
-azureml-core
-azureml-dataset-runtime[fuse]
-azure-ai-ml
-pandas
+azureml-mlflow==1.54.0
+azureml-core==1.61.0.post3
+azureml-dataset-runtime[fuse]==1.62.0
+azure-ai-ml==1.32.0
+pandas==2.1.4
