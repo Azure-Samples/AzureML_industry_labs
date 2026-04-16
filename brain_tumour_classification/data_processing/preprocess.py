@@ -45,5 +45,5 @@ class BrainTumourDataset(Dataset):
         return len(self.samples)
 
     def __getitem__(self, idx):
-        data = torch.load(self.samples[idx])
+        data = torch.load(self.samples[idx], weights_only=True)
         return data["tensor"], data["label"]
