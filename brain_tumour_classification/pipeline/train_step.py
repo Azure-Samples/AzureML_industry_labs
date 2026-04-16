@@ -125,8 +125,21 @@ if training_changed:
     print("\n── Training ─────────────────────────────────────")
 
     full_train = TensorDataset(args.processed_data, "Training")
-    val_size   = int(args.val_split * len(full_train))
-    train_size = len(full_train) - val_size
+    full_train_size = len(full_train)
+
+    if full_train_size < 2:
+        raise ValueError(
+            f"Training requires at least 2 samples to create non-empty train/validation splits, "
+            f"but found {full_train_size} sample(s)."
+        )
+    if not 0 < args.val_split < 1:
+        raise ValueError(
+            f"val_split must be strictly between 0 and 1, got {args.val_split}."
+        )
+
+    val_size = int(args.val_split * full_train_size)
+    val_size = max(1, min(val_size, full_train_size - 1))
+    train_size = full_train_size - val_size
     train_dataset, val_dataset = random_split(
         full_train,
         [train_size, val_size],
