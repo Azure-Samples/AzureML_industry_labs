@@ -1,0 +1,9 @@
+{
+  "name": "Brain Turmour Classification Pipeline",
+  "industry": "Health",
+  "description": "An automated Azure ML Pipeline to automatically train and deploy a CNN model to classify brain scan images as having one of three types of tumour, or no tumour",
+  "detailedDescription": "This lab demonstrates how pipelines can be set up on Azure ML. It first checks to see if the data, either training or testing, has changed at all (say if new data had been added). It then builds a data asset, and automatically trains the model (if the training data has changed). It then checks to see if the model is better, by testing the model on validation data. If so, the model is registered, and deployed to a batch endpoint to make predictions on the test dataset. The lab shows how large parts of an ML workflow can be automated using pipelines.",
+  "language": ["Python"],
+  "useCase": ["Medical Classification", "ML Pipelines", "Batch Inference"],
+  "authors": ["alfmuir321"]
+}
