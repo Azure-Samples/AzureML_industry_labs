@@ -8,11 +8,11 @@ Radiologists face increasing workloads as MRI imaging becomes more accessible, a
 
 Deep learning models based on convolutional neural networks have demonstrated strong performance on medical imaging tasks, but productionising them presents additional challenges:
 
-- **Data drift** — new scans arrive continuously, and the model must be retrained incrementally rather than from scratch each time.
+- **Data drift** — new scans arrive continuously, and the model must be retrained as data changes over time.
 - **Model governance** — only demonstrably better models should be promoted to production, with full lineage tracking back to the training data version.
 - **Reproducibility** — every deployed model must be traceable to the exact data, code, and hyperparameters used to train it.
 
-This lab implements a production-grade MLOps pipeline that addresses all three concerns: incremental preprocessing via manifest diffing, validation-accuracy gating at the registration step, and full MLflow experiment tracking with tagged data assets.
+This lab implements an MLOps pipeline that addresses all three concerns: incremental preprocessing via manifest diffing, validation-accuracy gating at the registration step, and full MLflow experiment tracking with tagged data assets.
 
 ## Dataset
 
