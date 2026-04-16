@@ -1,7 +1,7 @@
 torch==2.1.0
 torchvision==0.16.0
 numpy==1.26.4
-Pillow==12.1.1
+Pillow==12.2.0
 scikit-learn==1.7.2
 mlflow==2.9.2
 azureml-mlflow==1.54.0
