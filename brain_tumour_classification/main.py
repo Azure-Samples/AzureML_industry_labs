@@ -66,7 +66,7 @@ preprocess_component = command(
         "--manifest_file_training ${{inputs.manifest_file_training}} "
         "--manifest_file_testing ${{inputs.manifest_file_testing}} "
         "--n_augmentations 3 "
-        "--debug_limit 7"
+        "--debug_limit 0"
     ),
     environment=ENVIRONMENT_NAME,
     compute=COMPUTE_CLUSTER,
