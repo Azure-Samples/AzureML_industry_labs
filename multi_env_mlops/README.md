@@ -4,6 +4,16 @@
 
 Predict 30-day hospital readmission risk with Bicep IaC, three-environment model promotion (dev → test → prod), a shared ML Registry, and identity-based auth on Azure Machine Learning.
 
+## Highlights
+
+- **3 isolated workspaces** (dev, test, prod) + shared ML Registry for cross-workspace model promotion
+- **Identity-based auth only** — no shared keys anywhere (storage, Key Vault, endpoints)
+- **Registry-based components** — all workspaces consume identical versioned pipeline code
+- **GitHub Actions CI/CD** with OIDC federation and gated registry promotion (approval gates)
+- **Integration tests** before model promotion — schema validation + latency checks on test endpoint
+- **Python 3.13** pipeline: data prep, GBM training with MLflow, multi-threshold evaluation gate, SDK v2 model registration
+- **Bicep IaC** with parameterised environments and RBAC-as-code
+
 ## Problem Statement
 
 Hospital readmissions within 30 days are a key quality metric in healthcare — they indicate gaps in care transitions, drive significant costs, and are subject to regulatory penalties. Building a predictive model is only part of the solution: deploying it safely across isolated environments with proper governance, auditability, and network controls is where the real engineering challenge lies.
