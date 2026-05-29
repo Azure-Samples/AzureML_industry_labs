@@ -1,5 +1,7 @@
 # Multi-Environment MLOps for Healthcare
 
+> **This lab is hosted externally.** View the full lab at: [Azure-Samples/multi_env_mlops](https://github.com/Azure-Samples/multi_env_mlops/tree/main)
+
 Predict 30-day hospital readmission risk with Bicep IaC, three-environment model promotion (dev → test → prod), a shared ML Registry, and identity-based auth on Azure Machine Learning.
 
 ## Problem Statement
