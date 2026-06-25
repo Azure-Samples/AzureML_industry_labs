@@ -1,5 +1,26 @@
 [
   {
+    "name": "AutoResearch Foundry",
+    "industry": "Industry Agnostic",
+    "shortDescription": "An autonomous AI research agent that iteratively improves ML training scripts, built on Azure AI Foundry's Hosted Agent platform.",
+    "detailedDescription": "This lab demonstrates how to build an autonomous ML research agent on Microsoft Foundry. The agent spawns a background worker that reads training code from GitHub, uses an LLM to plan experiments, creates branches with modified code, submits Azure ML training jobs, collects metrics, and accepts or rejects changes based on results. Built with a keyword-router HTTP handler for fast response times and an asyncio background worker for heavy operations.",
+    "language": [
+      "Python",
+      "Bicep"
+    ],
+    "useCase": [
+      "Agentic AI",
+      "AutoResearch",
+      "Model Training"
+    ],
+    "authors": [
+      "ejones18"
+    ],
+    "directory": "autoresearch_foundry",
+    "githubPath": "https://github.com/ejones18/autoresearch-foundry",
+    "external": true
+  },
+  {
     "name": "Azure ML Model as MCP Server",
     "industry": "Industry Agnostic",
     "shortDescription": "Deploy a trained ML model to Azure ML and expose it as an MCP server via APIM for Foundry agents.",
