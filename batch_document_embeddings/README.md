@@ -1,6 +1,6 @@
 # Batch Document Embeddings
 
-Generate vector embeddings for document collections with Azure OpenAI and an
+Generate vector embeddings for document collections with Microsoft Foundry and an
 Azure Machine Learning managed batch endpoint.
 
 ---
@@ -14,7 +14,7 @@ compute, failure tracking, and durable outputs.
 
 This industry-agnostic lab uses an Azure ML SDK v2 pipeline to normalize text
 records, then invokes a managed batch endpoint that generates embeddings through
-Azure OpenAI. The endpoint authenticates with the compute cluster's managed
+Microsoft Foundry. The endpoint authenticates with the compute cluster's managed
 identity, so no API keys are stored in source code or deployment settings.
 
 ---
@@ -41,12 +41,12 @@ flowchart LR
     A[Text files] --> B[Azure ML preprocessing pipeline]
     B --> C[Normalized JSONL job output]
     C --> D[Azure ML managed batch endpoint]
-    D -->|Managed identity| E[Azure OpenAI embedding deployment]
+    D -->|Managed identity| E[Microsoft Foundry embedding deployment]
     E --> D
     D --> F[embeddings.jsonl]
 ```
 
-The Azure ML compute identity needs permission to call Azure OpenAI. Input and
+The Azure ML compute identity needs permission to call Microsoft Foundry. Input and
 output artifacts remain associated with Azure ML jobs for lineage and auditing.
 
 ### Why use an Azure ML batch endpoint?
@@ -89,7 +89,7 @@ used by the jobs add their own cost.
 
 - Python 3.10 or later
 - An Azure subscription and Azure ML workspace
-- An Azure OpenAI resource with an embedding model deployment
+- An Microsoft Foundry resource with an embedding model deployment
 - Azure CLI authenticated with `az login`
 - Contributor access to the Azure ML workspace
 - Permission to assign the `Cognitive Services OpenAI User` role
@@ -112,7 +112,7 @@ Give the compute cluster a system-assigned managed identity. The lab does this
 automatically when it creates a cluster with `--create-compute`. For an existing
 cluster, enable the identity in Azure ML Studio or with the Azure CLI.
 
-Assign the least-privileged Azure OpenAI data-plane role to that identity:
+Assign the least-privileged Microsoft Foundry data-plane role to that identity:
 
 ```bash
 COMPUTE_PRINCIPAL_ID=$(az ml compute show \
@@ -176,7 +176,7 @@ The scoring job produces `embeddings.jsonl`, with one record per input document:
 {"id":"document-001","embedding":[0.0123,-0.0456],"source_file":"documents.jsonl"}
 ```
 
-Downloaded artifacts are written beneath `outputs/<job-name>/`. Azure OpenAI
+Downloaded artifacts are written beneath `outputs/<job-name>/`. Microsoft Foundry
 controls the vector dimensionality; it depends on the selected deployment.
 
 | Artifact | Location | Purpose |

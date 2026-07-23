@@ -57,7 +57,7 @@ def ensure_compute(ml_client: MLClient, compute_name: str, create: bool) -> None
         ml_client.compute.begin_create_or_update(
             AmlCompute(
                 name=compute_name,
-                size="STANDARD_DS3_V2",
+                size="STANDARD_D4AS_V5",
                 min_instances=0,
                 max_instances=4,
                 idle_time_before_scale_down=120,
