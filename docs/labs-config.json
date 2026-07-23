@@ -41,6 +41,26 @@
     "external": true
   },
   {
+    "name": "Batch Document Embeddings",
+    "industry": "Industry Agnostic",
+    "shortDescription": "Generate vector embeddings for document collections with Azure OpenAI and an Azure Machine Learning managed batch endpoint.",
+    "detailedDescription": "This lab builds a repeatable batch embedding workflow on Azure Machine Learning. An SDK v2 pipeline validates and normalizes text documents, a managed batch endpoint calls Microsoft Foundry with the compute cluster's managed identity, and the completed job produces a line-delimited JSON embedding artifact for downstream search, clustering, or retrieval workflows.",
+    "language": [
+      "Python"
+    ],
+    "useCase": [
+      "Batch Inference",
+      "Document Embeddings",
+      "Semantic Search"
+    ],
+    "authors": [
+      "georgeollis"
+    ],
+    "directory": "batch_document_embeddings",
+    "githubPath": "https://github.com/Azure-Samples/AzureML_industry_labs/tree/main/batch_document_embeddings",
+    "external": false
+  },
+  {
     "name": "Brain Tumour Classification Pipeline",
     "industry": "Healthcare",
     "shortDescription": "An automated Azure ML Pipeline to automatically train and deploy a CNN model to classify brain scan images as having one of three types of tumour, or no tumour",
