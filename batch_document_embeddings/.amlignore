@@ -1,0 +1,20 @@
+# Azure ML temporary files
+.ipynb_aml_checkpoints/
+*.amltmp
+*.amltemp
+
+# Local outputs and caches
+outputs/
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+
+# Source control and editor state
+.git/
+.github/
+.vscode/
+
+# Azure ML artifacts
+.azureml/
+Logs/
